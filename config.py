@@ -26,13 +26,13 @@ def env_list(name: str, default=None, sep=",", cast=int):
 # Telegram
 # -----------------------------
 
-API_ID = env("API_ID", 0, int)
+API_ID = env("API_ID", "")
 API_HASH = env("API_HASH", "")
 BOT_TOKEN = env("BOT_TOKEN", "")
 
 BOT_USERNAME = env("BOT_USERNAME", "")
 
-PRIVATE_CHAT_ID = env("PRIVATE_CHAT_ID", 0, int)
+PRIVATE_CHAT_ID = env("PRIVATE_CHAT_ID", "")
 ADMINS = env_list("ADMINS", default=[])
 
 
@@ -40,8 +40,8 @@ ADMINS = env_list("ADMINS", default=[])
 # Redis
 # -----------------------------
 
-HOST = env("HOST", "localhost")
-PORT = env("PORT", 6379, int)
+HOST = env("HOST", "")
+PORT = env("PORT", "")
 PASSWORD = env("PASSWORD", "")
 
 
