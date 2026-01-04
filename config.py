@@ -1,23 +1,77 @@
-API_ID = 123456  # api id
-API_HASH = "ABC-DEF1234ghIkl-zyx57W2v1u123ew11"  # api hash
-
-BOT_TOKEN = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"  # bot token
+import os
 
 
-# REDIS
-HOST = "localhost"  # redis host uri
-PORT = 6379  # redis port
-PASSWORD = ""  # redis password
+# -----------------------------
+# Helpers
+# -----------------------------
 
-PRIVATE_CHAT_ID = -1001234567890  # CHAT WHERE YOU WANT TO STORE VIDEOS
-# COOKIE FOR AUTHENTICATION (get from chrome dev tools) ex: "PANWEB=1; csrfToken=;
-COOKIE = ""
-ADMINS = [1317173146]
+def env(name: str, default=None, cast=str):
+    value = os.getenv(name)
+    if value is None:
+        return default
+    try:
+        return cast(value)
+    except Exception:
+        return default
 
 
-BOT_USERNAME = "teraboxdown_bot"
+def env_list(name: str, default=None, sep=",", cast=int):
+    value = os.getenv(name)
+    if not value:
+        return default or []
+    return [cast(v.strip()) for v in value.split(sep) if v.strip()]
 
-# Force user to join this channel. (make sure you have promoted the bot on this chat.)
-FORCE_LINK = "@RoldexVerse"
 
-PUBLIC_EARN_API = ""  # https://publicearn.com/api
+# -----------------------------
+# Telegram
+# -----------------------------
+
+API_ID = env("API_ID", 0, int)
+API_HASH = env("API_HASH", "")
+BOT_TOKEN = env("BOT_TOKEN", "")
+
+BOT_USERNAME = env("BOT_USERNAME", "")
+
+PRIVATE_CHAT_ID = env("PRIVATE_CHAT_ID", 0, int)
+ADMINS = env_list("ADMINS", default=[])
+
+
+# -----------------------------
+# Redis
+# -----------------------------
+
+HOST = env("HOST", "localhost")
+PORT = env("PORT", 6379, int)
+PASSWORD = env("PASSWORD", "")
+
+
+# -----------------------------
+# Auth / Cookies
+# -----------------------------
+
+COOKIE = env("COOKIE", "")
+
+
+# -----------------------------
+# Force Join
+# -----------------------------
+
+FORCE_LINK = env("FORCE_LINK", "")
+
+
+# -----------------------------
+# External APIs
+# -----------------------------
+
+PUBLIC_EARN_API = env("PUBLIC_EARN_API", "")
+
+
+# -----------------------------
+# Validation (optional but recommended)
+# -----------------------------
+
+if not API_ID or not API_HASH:
+    raise RuntimeError("API_ID and API_HASH must be set in environment variables")
+
+if not BOT_TOKEN:
+    raise RuntimeError("BOT_TOKEN must be set in environment variables")
